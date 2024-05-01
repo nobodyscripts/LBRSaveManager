@@ -72,3 +72,4 @@ InitGameWindow() {
     }
     return false
 }
+
