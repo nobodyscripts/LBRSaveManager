@@ -6,6 +6,8 @@
 #Include Gui\MainGUI.ahk
 
 #Include Modules\BackupSave.ahk
+#Include Modules\ConvertSaveToJson.ahk
+#Include Modules\ConvertJsonToSave.ahk
 #Include Modules\RestoreNewestBackup.ahk
 
 global LBRWindowTitle := "Leaf Blower Revolution ahk_class YYGameMakerYY ahk_exe game.exe"
@@ -15,8 +17,21 @@ global GameSaveDir := A_AppData "\..\Local\blow_the_leaves_away\"
 global ActiveSavePath := GameSaveDir "save.dat"
 global BackupSaveDir := "\\?\" A_ScriptDir "\Backups\"
 global UserBackupSaveDir := 0
+global EnableLogging := false
 
-LoadSettings()
+global settings := cSettings()
+
+if (!settings.initSettings()) {
+    ; If the first load fails, it attempts to write a new config, this retrys
+    ; loading after that first failure
+    ; Hardcoding 2 attempts because a loop could continuously error
+    Sleep(50)
+    if (!settings.initSettings()) {
+        MsgBox("Script failed to load settings, script closing, try restarting.")
+        ExitApp()
+    }
+}
+
 RunGui()
 
 *F1:: {
@@ -58,15 +73,11 @@ cOpenBackupDir(*) {
 *F6:: {
     cRestoreNewestBackup()
 }
-
+/* 
 SaveSettings() {
     IniWrite(UserBackupSaveDir, "SaveManagerSettings.ini", "Default", "UserBackupSaveDir")
 }
 
 LoadSettings() {
     global UserBackupSaveDir := "\\?\" IniRead("SaveManagerSettings.ini", "Default", "UserBackupSaveDir", BackupSaveDir)
-}
-
-RemoveLongPath(var) {
-    return StrReplace(var, "\\?\")
-}
+} */

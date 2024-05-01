@@ -1,5 +1,7 @@
 #Requires AutoHotkey v2.0
 
+#Include ConvertFileGUI.ahk
+
 RunGui() {
     MyGui := Gui(, "LBR SaveManager NobodyScript")
     ;MyGui.Opt("-SysMenu")
@@ -28,6 +30,14 @@ RunGui() {
     MyGui.Add("Text", "cff0000", "F6 (WARNING DANGEROUS)")
     MyBtn := MyGui.Add("Button", "Default w120", "Restore`nNewest Backup")
     MyBtn.OnEvent("Click", cRestoreNewestBackup)
+
+    MyGui.Add("Text", "ccfcfcf", "F7 (WARNING)")
+    MyBtn := MyGui.Add("Button", "Default w120", "Convert Save to Json")
+    MyBtn.OnEvent("Click", cConvertSaveToJson)
+
+    MyGui.Add("Text", "ccfcfcf", "F8 (WARNING)")
+    MyBtn := MyGui.Add("Button", "Default w120", "Convert Json To Save")
+    MyBtn.OnEvent("Click", cConvertJsonToSave)
 
     MyGui.Add("Text", "ccfcfcf wp", "Settings")
     MyBtn := MyGui.Add("Button", "Default w120", "Settings")
@@ -58,11 +68,11 @@ cOpenSettings(*) {
     settingsGUI.Show("w300")
 
     SaveUserSettings(*) {
-        global UserBackupSaveDir
+        global UserBackupSaveDir, settings
         values := settingsGUI.Submit()
         UserBackupSaveDir := values.SaveDir
         if (DirExist(UserBackupSaveDir) ) {
-            SaveSettings()
+            settings.SaveCurrentSettings()
         } else {
             MsgBox("Could not save new backup folder, no dir found.", , "0x10")
             return

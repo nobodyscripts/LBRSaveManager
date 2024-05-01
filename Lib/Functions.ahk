@@ -73,3 +73,6 @@ InitGameWindow() {
     return false
 }
 
+RemoveLongPath(var) {
+    return StrReplace(var, "\\?\")
+}

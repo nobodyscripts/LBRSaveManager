@@ -29,6 +29,8 @@ class singleSetting {
                 return BinaryToStr(value)
             case "arrborbv":
                 return ArrToCommaDelimStr(value)
+            case "longpath":
+                return "\\?\" RemoveLongPath(value)
             default:
                 return value
         }
@@ -41,7 +43,7 @@ class singleSetting {
 
 class cSettings {
 
-    sFilename := A_ScriptDir "\UserSettings.ini"
+    sFilename := A_ScriptDir "\SaveManagerSettings.ini"
     sFileSection := "Default"
     sUseNobody := false
 
@@ -51,6 +53,8 @@ class cSettings {
 
         this.Map["EnableLogging"] := singleSetting().Create("EnableLogging", false, true, "bool", "Default")
         this.Map["Debug"] := singleSetting().Create("Debug", false, true, "bool", "Debug")
+        this.Map["UserBackupSaveDir"] := singleSetting().Create("UserBackupSaveDir", BackupSaveDir, BackupSaveDir, "longpath", "Default")
+        
 
         if (!secondary) {
             if (FileExist(A_ScriptDir "\IsNobody")) {
@@ -60,8 +64,8 @@ class cSettings {
                 Log("Settings: Using Nobody Defaults")
             }
             if (!FileExist(this.sFilename)) {
-                OutputDebug("No UserSettings.ini found, writing default file.`r`n")
-                Log("No UserSettings.ini found, writing default file.")
+                OutputDebug("No SaveManagerSettings.ini found, writing default file.`r`n")
+                Log("No SaveManagerSettings.ini found, writing default file.")
                 this.WriteDefaults(this.sUseNobody)
             }
             if (this.loadSettings()) {
@@ -71,7 +75,7 @@ class cSettings {
             }
             return true
         } else {
-            this.sFilename := A_ScriptDir "\..\UserSettings.ini"
+            this.sFilename := A_ScriptDir "\..\SaveManagerSettings.ini"
             if (this.loadSettings()) {
                 Log("Loaded settings.")
             } else {
@@ -84,6 +88,7 @@ class cSettings {
     loadSettings() {
         global EnableLogging := false
         global Debug := false
+        global UserBackupSaveDir
 
         for (setting in this.Map) {
             try {
@@ -105,8 +110,8 @@ class cSettings {
                 } else {
                     Log("Error 35: LoadSettings failed - " exc.Message)
                 }
-                MsgBox("Could not load all settings, making new default UserSettings.ini")
-                Log("Attempting to write a new default UserSettings.ini.")
+                MsgBox("Could not load all settings, making new default SaveManagerSettings.ini")
+                Log("Attempting to write a new default SaveManagerSettings.ini.")
                 this.WriteDefaults(this.sUseNobody)
                 return false
             }
