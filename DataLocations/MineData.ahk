@@ -265,5 +265,15 @@ setupMineDataEntries() {
     temp.Max := 10
     Entries.Push(temp)
 
+    temp := SaveDataEntry()
+    temp.Location := "profiles.def.objects.o_game.data.mines.drill_depth"
+    temp.Name := "objects.o_game.data.mines.drill_depth"
+    temp.UIName := "Depth Drill Current Depth"
+    temp.DataType := "float"
+    temp.Position := 0
+    temp.Min := 0.0
+    temp.Max := 0.0
+    Entries.Push(temp)
+
     return Entries
 }

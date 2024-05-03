@@ -25,14 +25,13 @@ generateEditForm(guiObj, dataObj) {
                 }
             case "string":
                 guiObj.Add("Text", "ccfcfcf" NewCol, Entry.UIName ":")
-                guiObj.AddEdit("v" Entry.Name, Entry.Get())
+                guiObj.AddEdit("v" Entry.Name " w120", Entry.Get())
             case "float":
                 guiObj.Add("Text", "ccfcfcf" NewCol, Entry.UIName ":")
-                guiObj.AddEdit()
-                guiObj.AddUpDown("v" Entry.Name " Range" Entry.Min "-" Entry.Max, Entry.Get())
+                guiObj.AddEdit("v" Entry.Name " w120", Entry.Get())
             default:
                 guiObj.Add("Text", "ccfcfcf" NewCol, Entry.UIName ":")
-                guiObj.AddEdit("v" Entry.Name, Entry.Get())
+                guiObj.AddEdit("v" Entry.Name " w120", Entry.Get())
         }
     }
 
