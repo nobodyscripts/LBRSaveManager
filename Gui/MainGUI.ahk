@@ -1,6 +1,8 @@
 #Requires AutoHotkey v2.0
 
 #Include ConvertFileGUI.ahk
+#Include MainEditGUI.ahk
+#Include MineEditGUI.ahk
 
 RunGui() {
     MyGui := Gui(, "LBR SaveManager NobodyScript")
@@ -38,6 +40,10 @@ RunGui() {
     MyGui.Add("Text", "ccfcfcf", "F8 (WARNING)")
     MyBtn := MyGui.Add("Button", "Default w120", "Convert Json To Save")
     MyBtn.OnEvent("Click", cConvertJsonToSave)
+
+    MyGui.Add("Text", "ccfcfcf wp", "Edit Save File")
+    MyBtn := MyGui.Add("Button", "Default w120", "Edit Save")
+    MyBtn.OnEvent("Click", cEditMain)
 
     MyGui.Add("Text", "ccfcfcf wp", "Settings")
     MyBtn := MyGui.Add("Button", "Default w120", "Settings")

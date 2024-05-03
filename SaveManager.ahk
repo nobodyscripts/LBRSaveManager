@@ -1,15 +1,6 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
 
-#Include Lib\Functions.ahk
-#Include Lib\ScriptSettings.ahk
-#Include Gui\MainGUI.ahk
-
-#Include Modules\BackupSave.ahk
-#Include Modules\ConvertSaveToJson.ahk
-#Include Modules\ConvertJsonToSave.ahk
-#Include Modules\RestoreNewestBackup.ahk
-
 global LBRWindowTitle := "Leaf Blower Revolution ahk_class YYGameMakerYY ahk_exe game.exe"
 global ScriptsLogFile := A_ScriptDir "\SaveManager.log"
 
@@ -18,6 +9,17 @@ global ActiveSavePath := GameSaveDir "save.dat"
 global BackupSaveDir := "\\?\" A_ScriptDir "\Backups\"
 global UserBackupSaveDir := 0
 global EnableLogging := false
+
+#Include Lib\Functions.ahk
+#Include Lib\ScriptSettings.ahk
+#Include Lib\EditableSave.ahk
+#Include Gui\MainGUI.ahk
+
+#Include Modules\BackupSave.ahk
+#Include Modules\ConvertSaveToJson.ahk
+#Include Modules\ConvertJsonToSave.ahk
+#Include Modules\RestoreNewestBackup.ahk
+
 
 global settings := cSettings()
 
@@ -73,11 +75,3 @@ cOpenBackupDir(*) {
 *F6:: {
     cRestoreNewestBackup()
 }
-/* 
-SaveSettings() {
-    IniWrite(UserBackupSaveDir, "SaveManagerSettings.ini", "Default", "UserBackupSaveDir")
-}
-
-LoadSettings() {
-    global UserBackupSaveDir := "\\?\" IniRead("SaveManagerSettings.ini", "Default", "UserBackupSaveDir", BackupSaveDir)
-} */
