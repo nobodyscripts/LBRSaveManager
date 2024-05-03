@@ -1,5 +1,7 @@
 #Requires AutoHotkey v2.0
 
+#Include FormLib.ahk
+
 global LoadedSaveFileName := ""
 
 cEditMain(*) {
@@ -8,7 +10,7 @@ cEditMain(*) {
     MainGUI := GUI(, "Edit Save")
     MainGUI.Opt("+Owner +MinSize +MinSize500x")
     MainGUI.BackColor := "0c0018"
-    MainGUI.Add("Progress", "w300 h40 cBlue vMyProgress smooth", 5)
+    MainGUI.Add("Progress", "w270 h20 cBlue vMyProgress smooth", 5)
     MainGUI["MyProgress"].Visible := false
     MainGUI.Add("Text",,"")
     MainGUI.Add("Button", "default", "Open File").OnEvent("Click", OpenSaveToEdit)
@@ -26,7 +28,7 @@ cEditMain(*) {
             return false
         }
         MainGUI["MyProgress"].Visible := true
-        SetTimer(IncLoadingProgress, 100, 1)
+        SetTimer(IncLoadingProgress, 150, 1)
         GameSaveData := LoadSaveToJson(LoadedSaveFileName)
         SetTimer(IncLoadingProgress, 0)
         MainGUI.Hide()
@@ -34,20 +36,20 @@ cEditMain(*) {
     }
     
     IncLoadingProgress() {
-        MainGUI["MyProgress"].value += 4
+        MainGUI["MyProgress"].value += 1
     }
 }
 
 cOpenEditableSave() {
     MainOpenedGUI := GUI(, "Edit Save")
-    MainOpenedGUI.Opt("+Owner +MinSize +MinSize500x")
+    MainOpenedGUI.Opt("+Owner +MinSize +MinSize500x +Resize")
     MainOpenedGUI.BackColor := "0c0018"
 
     tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf", ["General", "Mines", "Dice"])
     tabcontrol.UseTab(2)
     AddEditGuiMines(MainOpenedGUI)
 
-    MainOpenedGUI.Show("w300")
+    MainOpenedGUI.Show()
 }
 /*
 GameSaveData := LoadSaveToJson("F:\Documents\LBR Backups\LBR Save 2024 04 16 - 12-05-28.json")

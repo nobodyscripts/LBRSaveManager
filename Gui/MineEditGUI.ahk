@@ -3,45 +3,13 @@
 AddEditGuiMines(mineGUI) {
     global GameSaveData, MineData
 
-    for EntryKey, Entry in MineData {
-        switch Entry.DataType {
-            case "int":
-                mineGUI.Add("Text", "ccfcfcf", Entry.UIName ":")
-                mineGUI.AddEdit()
-                mineGUI.AddUpDown("v" Entry.Name " Range" Entry.Min "-" Entry.Max, Entry.Get())
-            case "bool":
-                if (Entry.Get() = true) {
-                    mineGUI.Add("CheckBox", "v" Entry.Name " ccfcfcf checked", Entry.UIName)
-                } else {
-                    mineGUI.Add("CheckBox", "v" Entry.Name " ccfcfcf", Entry.UIName)
-                }
-            case "string":
-                mineGUI.Add("Text", "ccfcfcf", Entry.UIName ":")
-                mineGUI.AddEdit("v" Entry.Name, Entry.Get())
-            case "float":
-                mineGUI.Add("Text", "ccfcfcf", Entry.UIName ":")
-                mineGUI.AddEdit()
-                mineGUI.AddUpDown("v" Entry.Name " Range" Entry.Min "-" Entry.Max, Entry.Get())
-            default:
-                mineGUI.Add("Text", "ccfcfcf", Entry.UIName ":")
-                mineGUI.AddEdit("v" Entry.Name, Entry.Get())
-        }
-    }
+    mineGUI := generateEditForm(mineGUI, MineData)
 
     mineGUI.Add("Button", "default", "Save").OnEvent("Click", SaveUserMine)
     mineGUI.Add("Button", "default yp", "Cancel").OnEvent("Click", CloseUserGeneralMine)
 
-    mineGUI.Show("w300")
-
     SaveUsermine(*) {
-        global LoadedSaveFileName, GameSaveData
-        values := mineGUI.Submit()
-
-        for EntryKey, Entry in MineData {
-            Entry.Set(values.%Entry.Name%)
-        }
-        
-        SaveVarToJsonFile(LoadedSaveFileName, GameSaveData)
+        saveEditForm(MineData, mineGUI)
         mineGUI.Hide()
     }
 
