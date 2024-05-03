@@ -48,6 +48,8 @@ cOpenEditableSave() {
     tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf", ["General", "Mines", "Dice"])
     tabcontrol.UseTab(2)
     AddEditGuiMines(MainOpenedGUI)
+    tabcontrol.UseTab(3)
+    AddEditGuiDice(MainOpenedGUI)
 
     MainOpenedGUI.Show()
 }
