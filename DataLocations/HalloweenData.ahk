@@ -42,7 +42,7 @@ setupHalloweenDataEntries() {
     temp.DataType := "int"
     temp.Position := 0
     temp.Min := 0.0
-    temp.Max := 2147483647
+    temp.Max := ConstMaxInt
     Entries.Push(temp)
 
     temp := SaveDataEntry()

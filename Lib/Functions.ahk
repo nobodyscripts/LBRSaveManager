@@ -1,5 +1,6 @@
 #Requires AutoHotkey v2.0
 global ScriptsLogFile
+global ConstMaxInt := 2147483647
 ; ------------------- Functions -------------------
 
 /**
