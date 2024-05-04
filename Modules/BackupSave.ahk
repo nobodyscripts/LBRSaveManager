@@ -12,12 +12,11 @@ cBackupSave(*) {
     } else {
         BackupDir := BackupSaveDir
     }
-    NewBackupSavePath := BackupDir "LBR Save " FormatTime(A_Now, "yyyy MM dd '-' HH'-'mm'-'ss") ".dat"
+    NewBackupSavePath := BackupDir "\LBR Save " FormatTime(A_Now, "yyyy MM dd '-' HH'-'mm'-'ss") ".dat"
     if (!DirExist(BackupDir)) {
         DirCreate(BackupDir)
     }
     if (!FileExist(NewBackupSavePath)) {
-
         FileCopy(ActiveSavePath, NewBackupSavePath)
     }
     MsgBox("Have backed up save to:`n" RemoveLongPath(NewBackupSavePath), "Backup Successful")
