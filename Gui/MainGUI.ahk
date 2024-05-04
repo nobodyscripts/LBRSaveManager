@@ -23,8 +23,16 @@ RunGui() {
     MyBtn := MyGui.Add("Button", "Default w120", "Open Backup Dir")
     MyBtn.OnEvent("Click", cOpenBackupDir)
 
+    MyGui.Add("Text", "ccfcfcf", "`nWARNING")
+    MyBtn := MyGui.Add("Button", "Default w120", "Rename *.dat`nin Backup Dir")
+    MyBtn.OnEvent("Click", cRenameSaves)
+
+    MyGui.Add("Text", "ccfcfcf", "`nWARNING")
+    MyBtn := MyGui.Add("Button", "Default w120", "Rename *.txt`nin Backup Dir")
+    MyBtn.OnEvent("Click", cRenameSavesTxt)
+
     MyGui.Add("Text", "cff0000", "`nWARNING DANGEROUS")
-    MyBtn := MyGui.Add("Button", "Default w120", "Restore`nNewest Backup")
+    MyBtn := MyGui.Add("Button", "Default w120 ys", "Restore`nNewest Backup")
     MyBtn.OnEvent("Click", cRestoreNewestBackup)
 
     MyGui.Add("Text", "ccfcfcf", "`nWARNING")
@@ -73,7 +81,8 @@ cOpenSettings(*) {
         if (DirExist(UserBackupSaveDir) ) {
             settings.SaveCurrentSettings()
         } else {
-            MsgBox("Could not save new backup folder, no dir found.", , "0x10")
+            DirCreate(UserBackupSaveDir)
+            MsgBox("Directory created as not found.", , "0x100 0x30")
             return
         }
         settingsGUI.Hide()
@@ -94,4 +103,21 @@ OpenBackupDir() {
         BackupDir := BackupSaveDir
     }
     Run("Explorer.exe " BackupDir)
+}
+
+cExit(*) {
+    ExitApp()
+}
+
+cReload(*) {
+    Reload()
+}
+
+cOpenSaveDir(*) {
+    OpenSaveDir()
+}
+
+
+cOpenBackupDir(*) {
+    OpenBackupDir()
 }

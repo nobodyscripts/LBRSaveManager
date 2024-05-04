@@ -19,6 +19,7 @@ global EnableLogging := false
 #Include Modules\ConvertSaveToJson.ahk
 #Include Modules\ConvertJsonToSave.ahk
 #Include Modules\RestoreNewestBackup.ahk
+#Include Modules\RenameSaves.ahk
 
 
 global settings := cSettings()
@@ -35,20 +36,3 @@ if (!settings.initSettings()) {
 }
 
 RunGui()
-
-cExit(*) {
-    ExitApp()
-}
-
-cReload(*) {
-    Reload()
-}
-
-cOpenSaveDir(*) {
-    OpenSaveDir()
-}
-
-
-cOpenBackupDir(*) {
-    OpenBackupDir()
-}

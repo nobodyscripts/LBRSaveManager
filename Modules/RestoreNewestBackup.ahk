@@ -15,16 +15,18 @@ cRestoreNewestBackup(*) {
     newestFileTime := 0
     timeDiff := 0
     currentTime := A_now
-    loop files BackupDir "*.dat", "F" {
+    savesPath := RemoveLongPath(BackupDir) "\*.dat"
+    loop files savesPath, "F" {
+        log(A_LoopFileName)
         if (newestFileTime = 0) {
-            newestFileTime := A_LoopFileTimeCreated
+            newestFileTime := A_LoopFileTimeModified
             newestFile := A_LoopFileName
-            timeDiff := DateDiff(currentTime, A_LoopFileTimeCreated, "Seconds")
+            timeDiff := DateDiff(currentTime, A_LoopFileTimeModified, "Seconds")
         } else {
-            if (DateDiff(currentTime, A_LoopFileTimeCreated, "Seconds") < timeDiff) {
-                newestFileTime := A_LoopFileTimeCreated
+            if (DateDiff(currentTime, A_LoopFileTimeModified, "Seconds") < timeDiff) {
+                newestFileTime := A_LoopFileTimeModified
                 newestFile := A_LoopFileName
-                timeDiff := DateDiff(currentTime, A_LoopFileTimeCreated, "Seconds")
+                timeDiff := DateDiff(currentTime, A_LoopFileTimeModified, "Seconds")
             }
         }
     }
@@ -45,7 +47,7 @@ cRestoreNewestBackup(*) {
     }
 
     if (HasPressed2 = "OK") {
-        DirCopy(BackupDir newestFile, ActiveSavePath, true)
+        FileCopy(BackupDir "\" newestFile, ActiveSavePath, true)
     } else {
         MsgBox("Aborted save restore.", , "0x100 0x30")
         return
