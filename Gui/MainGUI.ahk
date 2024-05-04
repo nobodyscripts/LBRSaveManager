@@ -8,43 +8,37 @@ RunGui() {
     ;MyGui.Opt("-SysMenu")
     MyGui.BackColor := "0c0018"
 
-    MyGui.Add("Text", "ccfcfcf", "F1")
     MyBtn := MyGui.Add("Button", "Default w80", "Exit")
     MyBtn.OnEvent("Click", cExit)
 
-    MyGui.Add("Text", "ccfcfcf", "F2")
     MyBtn := MyGui.Add("Button", "Default w80", "Reload/End")
     MyBtn.OnEvent("Click", cReload)
 
-    MyGui.Add("Text", "ccfcfcf", "F3")
     MyBtn := MyGui.Add("Button", "Default w120", "Backup Save`n(Close Game First)")
     MyBtn.OnEvent("Click", cBackupSave)
 
-    MyGui.Add("Text", "ccfcfcf", "F4")
     MyBtn := MyGui.Add("Button", "Default w120", "Open Save Dir")
     MyBtn.OnEvent("Click", cOpenSaveDir)
 
-    MyGui.Add("Text", "ccfcfcf", "F5")
     MyBtn := MyGui.Add("Button", "Default w120", "Open Backup Dir")
     MyBtn.OnEvent("Click", cOpenBackupDir)
 
-    MyGui.Add("Text", "cff0000", "F6 (WARNING DANGEROUS)")
+    MyGui.Add("Text", "cff0000", "`nWARNING DANGEROUS")
     MyBtn := MyGui.Add("Button", "Default w120", "Restore`nNewest Backup")
     MyBtn.OnEvent("Click", cRestoreNewestBackup)
 
-    MyGui.Add("Text", "ccfcfcf", "F7 (WARNING)")
+    MyGui.Add("Text", "ccfcfcf", "`nWARNING")
     MyBtn := MyGui.Add("Button", "Default w120", "Convert Save to Json")
     MyBtn.OnEvent("Click", cConvertSaveToJson)
 
-    MyGui.Add("Text", "ccfcfcf", "F8 (WARNING)")
+    MyGui.Add("Text", "ccfcfcf", "`nWARNING")
     MyBtn := MyGui.Add("Button", "Default w120", "Convert Json To Save")
     MyBtn.OnEvent("Click", cConvertJsonToSave)
 
-    MyGui.Add("Text", "ccfcfcf wp", "Edit Save File")
+    MyGui.Add("Text", "", "")
     MyBtn := MyGui.Add("Button", "Default w120", "Edit Save")
     MyBtn.OnEvent("Click", cEditMain)
 
-    MyGui.Add("Text", "ccfcfcf wp", "Settings")
     MyBtn := MyGui.Add("Button", "Default w120", "Settings")
     MyBtn.OnEvent("Click", cOpenSettings)
 

@@ -36,42 +36,19 @@ if (!settings.initSettings()) {
 
 RunGui()
 
-*F1:: {
-    cExit()
-}
-
 cExit(*) {
     ExitApp()
-}
-
-*F2:: {
-    cReload()
 }
 
 cReload(*) {
     Reload()
 }
 
-*F3:: {
-    cBackupSave()
-}
-
-*F4:: {
-    cOpenSaveDir()
-}
-
 cOpenSaveDir(*) {
     OpenSaveDir()
 }
 
-*F5:: {
-    cOpenBackupDir()
-}
 
 cOpenBackupDir(*) {
     OpenBackupDir()
-}
-
-*F6:: {
-    cRestoreNewestBackup()
 }
