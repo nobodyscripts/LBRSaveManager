@@ -31,8 +31,8 @@ RunGui() {
     MyBtn := MyGui.Add("Button", "Default w120", "Rename *.txt`nin Backup Dir")
     MyBtn.OnEvent("Click", cRenameSavesTxt)
 
-    MyGui.Add("Text", "cff0000", "`nWARNING DANGEROUS")
-    MyBtn := MyGui.Add("Button", "Default w120 ys", "Restore`nNewest Backup")
+    MyGui.Add("Text", "cff0000 ys", "WARNING DANGEROUS")
+    MyBtn := MyGui.Add("Button", "Default w120", "Restore`nNewest Backup")
     MyBtn.OnEvent("Click", cRestoreNewestBackup)
 
     MyGui.Add("Text", "ccfcfcf", "`nWARNING")
