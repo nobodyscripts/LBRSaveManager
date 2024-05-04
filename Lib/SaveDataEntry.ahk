@@ -1,8 +1,5 @@
 #Requires AutoHotkey v2.0
 
-
-#Include ../DataLocations/DiceData.ahk
-#Include ../DataLocations/MineData.ahk
 #Include ../ExtLIbs/PeepAHK-main/script/Peep.v2.ahk
 
 Class SaveDataEntry {

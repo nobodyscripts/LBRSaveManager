@@ -2,8 +2,6 @@
 
 #Include ConvertFileGUI.ahk
 #Include MainEditGUI.ahk
-#Include MineEditGUI.ahk
-#Include DiceEditGUI.ahk
 
 RunGui() {
     MyGui := Gui(, "LBR SaveManager NobodyScript")

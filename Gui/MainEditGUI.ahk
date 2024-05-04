@@ -1,6 +1,10 @@
 #Requires AutoHotkey v2.0
 
 #Include FormLib.ahk
+#Include ../DataLocations/Header.ahk
+#Include DiceEditGUI.ahk
+#Include HalloweenEditGUI.ahk
+#Include MineEditGUI.ahk
 
 global LoadedSaveFileName := ""
 
@@ -45,11 +49,13 @@ cOpenEditableSave() {
     MainOpenedGUI.Opt("+Owner +MinSize +MinSize500x +Resize")
     MainOpenedGUI.BackColor := "0c0018"
 
-    tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf", ["General", "Mines", "Dice"])
+    tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf", ["General", "Mines", "Dice", "Halloween"])
     tabcontrol.UseTab(2)
     AddEditGuiMines(MainOpenedGUI)
     tabcontrol.UseTab(3)
     AddEditGuiDice(MainOpenedGUI)
+    tabcontrol.UseTab(4)
+    AddEditGuiHalloween(MainOpenedGUI)
 
     MainOpenedGUI.Show()
 }
