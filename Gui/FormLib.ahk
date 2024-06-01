@@ -6,7 +6,6 @@ generateEditForm(guiObj, dataObj) {
         NewCol := ""
         if (Entry.Position = 1) {
             NewCol := " ys"
-            ;guiObj.Add("Text", "ccfcfcf ys", "")
         }
         if (FirstControl) {
             NewCol := " Section"
