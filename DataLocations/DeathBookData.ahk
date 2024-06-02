@@ -1,8 +1,10 @@
 #Requires AutoHotkey v2.0
 
-global GeneralData := setupGeneralDataEntries()
+#Include ../Lib/SaveDataEntry.ahk
 
-setupGeneralDataEntries() {
+global DeathBookData := setupDeathBookDataEntries()
+
+setupDeathBookDataEntries() {
     Entries := []
 
     temp := SaveDataEntry()

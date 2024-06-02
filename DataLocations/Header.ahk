@@ -5,7 +5,7 @@
 ;#Include CraftingData.ahk
 ;#Include DeathBookData.ahk
 #Include DiceData.ahk
-;#Include GeneralData.ahk
+#Include GeneralData.ahk
 #Include HalloweenData.ahk
 #Include MineData.ahk
 ;#Include NatureData.ahk

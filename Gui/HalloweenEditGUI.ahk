@@ -1,7 +1,8 @@
 #Requires AutoHotkey v2.0
+#Include FormLib.ahk
 
 AddEditGuiHalloween(GUIObj) {
-    global GameSaveData, HalloweenData
+    global HalloweenData
 
     HalloweenGUI := generateEditForm(GUIObj, HalloweenData)
 

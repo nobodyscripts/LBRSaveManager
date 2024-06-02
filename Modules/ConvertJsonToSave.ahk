@@ -25,10 +25,19 @@ GetBase64StringSave(filename) {
         return false
     }
 
+    while (save != StrReplace(save, "  ")) {
+        save := StrReplace(save, "  ")
+    }
+    while (save != StrReplace(save, A_Tab)) {
+        save := StrReplace(save, A_Tab)
+    }
+    save := StrReplace(save, "`r")
+    save := StrReplace(save, "`n")
+
     newHash := Hash.HMAC("SHA-1", save, "ke03m!5ng93nan7p24lyg343nml2o591")
-    save := save "#" newHash "#"
+    newsave := save . "#" . newHash . "#"
     Log("Newhash " newHash)
-    return StringToBase64(save)
+    return StringToBase64(newsave)
 }
 
 ExtentionToDat(path) {

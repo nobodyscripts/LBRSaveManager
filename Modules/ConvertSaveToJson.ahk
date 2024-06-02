@@ -32,7 +32,8 @@ GetJsonStringSave(filename) {
 
 GetSaveData(filename) {
     try {
-        return FileRead(filename)
+        var := FileRead(filename)
+        return var
     } catch as exc {
         Log("Error: Error opening file " filename " - " exc.Message "`r`n")
         MsgBox("Error: Error opening file " filename " - " exc.Message)

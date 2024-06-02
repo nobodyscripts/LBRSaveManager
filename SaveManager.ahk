@@ -20,7 +20,7 @@ global EnableLogging := false
 #Include Modules\ConvertJsonToSave.ahk
 #Include Modules\RestoreNewestBackup.ahk
 #Include Modules\RenameSaves.ahk
-
+#Include Modules\TestConvertSave.ahk
 
 global settings := cSettings()
 
@@ -36,3 +36,5 @@ if (!settings.initSettings()) {
 }
 
 RunGui()
+
+RunTest()

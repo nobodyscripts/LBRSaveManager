@@ -1,5 +1,7 @@
 #Requires AutoHotkey v2.0
 
+#Include ../Lib/SaveDataEntry.ahk
+
 global DiceData := setupDiceDataEntries()
 
 setupDiceDataEntries() {
@@ -21,7 +23,7 @@ setupDiceDataEntries() {
     temp.UIName := "Unlock Azurite Leaves"
     temp.DataType := "bool"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 0
     Entries.Push(temp)
 
@@ -31,7 +33,7 @@ setupDiceDataEntries() {
     temp.UIName := "Unlock Niobium Leaves"
     temp.DataType := "bool"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 0
     Entries.Push(temp)
 
@@ -41,7 +43,7 @@ setupDiceDataEntries() {
     temp.UIName := "Dice Count"
     temp.DataType := "int"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 10
     Entries.Push(temp)
 
@@ -51,7 +53,7 @@ setupDiceDataEntries() {
     temp.UIName := "Dice Sides Count"
     temp.DataType := "int"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 10
     Entries.Push(temp)
 
@@ -61,7 +63,7 @@ setupDiceDataEntries() {
     temp.UIName := "Bigger Dice Bag"
     temp.DataType := "int"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 5
     Entries.Push(temp)
 
@@ -71,7 +73,7 @@ setupDiceDataEntries() {
     temp.UIName := "Bigger Dice Backpack"
     temp.DataType := "int"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 5
     Entries.Push(temp)
 
@@ -81,7 +83,7 @@ setupDiceDataEntries() {
     temp.UIName := "Faster Dice"
     temp.DataType := "int"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 10
     Entries.Push(temp)
 
@@ -91,7 +93,7 @@ setupDiceDataEntries() {
     temp.UIName := "Faster Battle Dice"
     temp.DataType := "int"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 10
     Entries.Push(temp)
 
@@ -101,8 +103,8 @@ setupDiceDataEntries() {
     temp.UIName := "Unlock Dice Points Converter (Azurite)"
     temp.DataType := "bool"
     temp.Position := 1
-    temp.Min := 0.0
-    temp.Max := 10
+    temp.Min := 0
+    temp.Max := 0
     Entries.Push(temp)
 
     temp := SaveDataEntry()
@@ -111,7 +113,7 @@ setupDiceDataEntries() {
     temp.UIName := "Unlock Power Dice Converter (Azurite)"
     temp.DataType := "bool"
     temp.Position := 0
-    temp.Min := 0.0
+    temp.Min := 0
     temp.Max := 10
     Entries.Push(temp)
 

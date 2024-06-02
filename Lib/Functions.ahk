@@ -55,12 +55,12 @@ IsWindowActive() {
     global LastWindowNotActiveTimer
     if (!WinExist(LBRWindowTitle) ||
         !WinActive(LBRWindowTitle)) {
-            ; Because this can be spammed lets limit rate the error log
-            if (DateDiff(A_Now, LastWindowNotActiveTimer, "Seconds") >= 10) {
-                Log("Error 1: Window not active or doesn't exist.")
-                LastWindowNotActiveTimer := A_Now
-            }
-            return false
+        ; Because this can be spammed lets limit rate the error log
+        if (DateDiff(A_Now, LastWindowNotActiveTimer, "Seconds") >= 10) {
+            Log("Error 1: Window not active or doesn't exist.")
+            LastWindowNotActiveTimer := A_Now
+        }
+        return false
     }
     return true
 }
@@ -76,4 +76,16 @@ InitGameWindow() {
 
 RemoveLongPath(var) {
     return StrReplace(var, "\\?\")
+}
+
+CapitaliseFirstChar(string) {
+    if (!string) {
+        return false
+    }
+    arr := StrSplit(string,,,2)
+    if (arr.Length = 2) {
+        arr[1] := StrUpper(arr[1])
+        return arr[1] arr[2]
+    }
+    return StrUpper(arr[1])
 }

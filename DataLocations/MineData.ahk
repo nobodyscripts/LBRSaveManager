@@ -1,8 +1,11 @@
 #Requires AutoHotkey v2.0
 
+#Include ../Lib/SaveDataEntry.ahk
+
 global MineData := setupMineDataEntries()
 
 setupMineDataEntries() {
+
     Entries := []
 
     temp := SaveDataEntry()

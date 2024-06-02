@@ -1,7 +1,8 @@
 #Requires AutoHotkey v2.0
+#Include FormLib.ahk
 
 AddEditGuiDice(DiceGUI) {
-    global GameSaveData, DiceData
+    global DiceData
 
     DiceGUI := generateEditForm(DiceGUI, DiceData)
 
