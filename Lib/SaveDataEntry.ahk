@@ -14,6 +14,7 @@ Class SaveDataEntry {
     Get() {
         global GameSaveData
         if (!GameSaveData) {
+            GameSaveData := false
             Log("No game save data loaded.")
             return false
         }
@@ -78,11 +79,3 @@ Class SaveDataEntry {
         }
     }
 }
-
-/*
-GameSaveData := LoadSaveToJson("F:\Documents\LBR Backups\LBR Save 2024 04 16 - 12-05-28.json")
-MineData.MinesEnchanceCount.Set(2)
-Peep(MineData.MinesEnchanceCount.Get())
-Peep(GameSaveData)
-SaveVarToJsonFile("F:\Documents\LBR Backups\LBR Save 2024 04 16 - 12-05-28.json", GameSaveData)
-*/

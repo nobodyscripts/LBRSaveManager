@@ -1,10 +1,9 @@
 #Requires AutoHotkey v2.0
 
 #Include ../DataLocations/Header.ahk
-#Include GeneralEditGUI.ahk
-#Include DiceEditGUI.ahk
-#Include HalloweenEditGUI.ahk
-#Include MineEditGUI.ahk
+#Include DynamicForms.ahk
+#Include FormLib.ahk
+#Include ../Lib/EditableSave.ahk
 
 global LoadedSaveFileName := ""
 global GameSaveData := false
@@ -17,7 +16,7 @@ cEditMain(*) {
     MainGUI.BackColor := "0c0018"
     MainGUI.Add("Progress", "w270 h20 cBlue vMyProgress smooth", 5)
     MainGUI["MyProgress"].Visible := false
-    MainGUI.Add("Text",,"")
+    MainGUI.Add("Text", , "")
     MainGUI.Add("Button", "default", "Open File").OnEvent("Click", OpenSaveToEdit)
     if (!GameSaveData) {
         MainGUI.Show("w300")
@@ -46,46 +45,71 @@ cEditMain(*) {
         MainGUI.Hide()
         cOpenEditableSave()
     }
-    
+
     IncLoadingProgress() {
         MainGUI["MyProgress"].value += 1
     }
 }
 
+WriteEditedSave() {
+    global GameSaveData, LoadedSaveFileName
+
+    WaitGUI := GUI(, "Waiting for save")
+    WaitGUI.Opt("+Owner +MinSize +MinSize500x")
+    WaitGUI.BackColor := "0c0018"
+    WaitGUI.AddText("cWhite", "Waiting for file to save to: " LoadedSaveFileName)
+    WaitGUI.Add("Progress", "w270 h20 cBlue vMyProgress smooth", 5)
+
+    SetTimer(incWaitProgress.Bind(WaitGUI), 50)
+    WaitGUI.Show()
+
+    SaveVarToJsonFile(LoadedSaveFileName, GameSaveData)
+    
+    WaitGUI.Hide()
+    MsgBox("Edited file saved to: " LoadedSaveFileName)
+    SetTimer(incWaitProgress.Bind(WaitGUI), 0)
+}
+
 cOpenEditableSave() {
     MainOpenedGUI := GUI(, "Edit Save")
-    MainOpenedGUI.Opt("+Owner +MinSize +MinSize500x +Resize")
+    MainOpenedGUI.Opt("+Owner +MinSize300y +MinSize300x +Resize")
     MainOpenedGUI.BackColor := "0c0018"
+    tabs := []
 
-    tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf", ["General", "Leaves", "Flasks", "Borbv", "Nature", "Plant", "Butterfly", "Soul", "Quark", "Dice", "Dice2", "Mines", "Mines2", "Halloween"])
-    tabcontrol.UseTab(1)
-    AddEditGuiResourcesGeneral(MainOpenedGUI)
-    tabcontrol.UseTab(2)
-    AddEditGuiResourcesGeneralLeaves(MainOpenedGUI)
-    tabcontrol.UseTab(3)
-    AddEditGuiResourcesGeneralFlasks(MainOpenedGUI)
-    tabcontrol.UseTab(4)
-    AddEditGuiResourcesGeneralBorbv(MainOpenedGUI)
-    tabcontrol.UseTab(5)
-    AddEditGuiResourcesGeneralNature(MainOpenedGUI)
-    tabcontrol.UseTab(6)
-    AddEditGuiResourcesGeneralPlant(MainOpenedGUI)
-    tabcontrol.UseTab(7)
-    AddEditGuiResourcesGeneralButterfly(MainOpenedGUI)
-    tabcontrol.UseTab(8)
-    AddEditGuiResourcesGeneralSoul(MainOpenedGUI)
-    tabcontrol.UseTab(9)
-    AddEditGuiResourcesGeneralQuark(MainOpenedGUI)
-    tabcontrol.UseTab(10)
-    AddEditGuiResourcesGeneralDice(MainOpenedGUI)
-    tabcontrol.UseTab(11)
-    AddEditGuiDice(MainOpenedGUI)
-    tabcontrol.UseTab(12)
-    AddEditGuiResourcesGeneralMine(MainOpenedGUI)
-    tabcontrol.UseTab(13)
-    AddEditGuiMines(MainOpenedGUI)
-    tabcontrol.UseTab(14)
-    AddEditGuiHalloween(MainOpenedGUI)
 
+    for (k, v in GameSaveData) {
+        if (k != "profiles" && k != "version" && k != "version_int" &&
+            k != "current_profile") {
+            tabs.Push(StrReplace(CapitaliseFirstChar(k), "_", A_Space))
+        }
+    }
+
+    for (k, v in GameSaveData["profiles"]["def"]) {
+        if (k != "player" && k != "key") {
+            tabs.Push(StrReplace(CapitaliseFirstChar(k), "_", A_Space))
+        }
+    }
+    tabs.Push("Challenge Profile")
+
+    tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf", tabs)
+    i := 1
+    for (k, v in GameSaveData) {
+        if (k != "profiles" && k != "version" && k != "version_int" &&
+            k != "current_profile") {
+            tabcontrol.UseTab(i)
+            setupDynamicForm(MainOpenedGUI, v, k ".")
+            i++
+        }
+    }
+    for (k, v in GameSaveData["profiles"]["def"]) {
+        if (k != "player" && k != "key") {
+            tabcontrol.UseTab(i)
+            setupDynamicForm(MainOpenedGUI, v, "profiles.def." k ".")
+            i++
+        }
+    }
+    tabcontrol.UseTab(i)
+    setupDynamicForm(MainOpenedGUI,
+        GameSaveData["profiles"]["challenge"], "profiles.challenge.")
     MainOpenedGUI.Show()
 }
