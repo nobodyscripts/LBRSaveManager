@@ -2,8 +2,10 @@
 
 #Include ConvertFileGUI.ahk
 #Include MainEditGUI.ahk
+global MyGui := false
 
 RunGui() {
+    global MyGui
     MyGui := Gui(, "LBR SaveManager NobodyScript")
     ;MyGui.Opt("-SysMenu")
     MyGui.BackColor := "0c0018"
@@ -92,6 +94,7 @@ cOpenSettings(*) {
         settingsGUI.Hide()
     }
 }
+
 OpenSaveDir() {
     Run("Explorer.exe " GameSaveDir)
 }

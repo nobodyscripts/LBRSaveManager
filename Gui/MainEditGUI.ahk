@@ -12,12 +12,14 @@ cEditMain(*) {
     global GameSaveData
 
     MainGUI := GUI(, "Edit Save")
-    MainGUI.Opt("+Owner +MinSize +MinSize500x")
+    MainGUI.Opt("+MinSize +MinSize500x")
     MainGUI.BackColor := "0c0018"
     MainGUI.Add("Progress", "w270 h20 cBlue vMyProgress smooth", 5)
     MainGUI["MyProgress"].Visible := false
     MainGUI.Add("Text", , "")
     MainGUI.Add("Button", "default", "Open File").OnEvent("Click", OpenSaveToEdit)
+    MainGUI.OnEvent("Close", RestoreBaseGUI)
+    
     if (!GameSaveData) {
         MainGUI.Show("w300")
     } else {
@@ -25,12 +27,13 @@ cEditMain(*) {
     }
 
     OpenSaveToEdit(*) {
-        global GameSaveData, LoadedSaveFileName
+        global GameSaveData, LoadedSaveFileName, MyGui
         LoadedSaveFileName := FileSelect("3", UserBackupSaveDir,
             "Select a json file to edit.", "*.json")
         if (!LoadedSaveFileName || !FileExist(LoadedSaveFileName)) {
             MsgBox("Error: No file exists at: " LoadedSaveFileName)
             MainGUI.Hide()
+            MyGui.Show()
             return false
         }
         MainGUI["MyProgress"].Visible := true
@@ -42,40 +45,28 @@ cEditMain(*) {
             return false
         }
         SetTimer(IncLoadingProgress, 0)
-        MainGUI.Hide()
         cOpenEditableSave()
+        MyGui.Hide()
+        MainGUI.Hide()
     }
 
     IncLoadingProgress() {
         MainGUI["MyProgress"].value += 1
     }
-}
 
-WriteEditedSave() {
-    global GameSaveData, LoadedSaveFileName
-
-    WaitGUI := GUI(, "Waiting for save")
-    WaitGUI.Opt("+Owner +MinSize +MinSize500x")
-    WaitGUI.BackColor := "0c0018"
-    WaitGUI.AddText("cWhite", "Waiting for file to save to: " LoadedSaveFileName)
-    WaitGUI.Add("Progress", "w270 h20 cBlue vMyProgress smooth", 5)
-
-    SetTimer(incWaitProgress.Bind(WaitGUI), 50)
-    WaitGUI.Show()
-
-    SaveVarToJsonFile(LoadedSaveFileName, GameSaveData)
-    
-    WaitGUI.Hide()
-    MsgBox("Edited file saved to: " LoadedSaveFileName)
-    SetTimer(incWaitProgress.Bind(WaitGUI), 0)
+    RestoreBaseGUI(*) {
+        global MyGui
+        MyGui.Show()
+    }
 }
 
 cOpenEditableSave() {
     MainOpenedGUI := GUI(, "Edit Save")
-    MainOpenedGUI.Opt("+Owner +MinSize300y +MinSize300x +Resize")
+    MainOpenedGUI.Opt("+MinSize300y +MinSize300x +Resize")
     MainOpenedGUI.BackColor := "0c0018"
     tabs := []
 
+    MainOpenedGUI.OnEvent("Close", RestoreBaseGUI)
 
     for (k, v in GameSaveData) {
         if (k != "profiles" && k != "version" && k != "version_int" &&
@@ -91,7 +82,7 @@ cOpenEditableSave() {
     }
     tabs.Push("Challenge Profile")
 
-    tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf", tabs)
+    tabcontrol := MainOpenedGUI.Add("Tab3", "ccfcfcf vTabControl", tabs)
     i := 1
     for (k, v in GameSaveData) {
         if (k != "profiles" && k != "version" && k != "version_int" &&
@@ -112,4 +103,9 @@ cOpenEditableSave() {
     setupDynamicForm(MainOpenedGUI,
         GameSaveData["profiles"]["challenge"], "profiles.challenge.")
     MainOpenedGUI.Show()
+
+    RestoreBaseGUI(*) {
+        global MyGui
+        MyGui.Show()
+    }
 }

@@ -4,9 +4,9 @@
 
 global GameSaveData
 
-setupDynamicForm(gui, data, basePath) {
+setupDynamicForm(editGui, data, basePath) {
     i := 1
-    treeview := gui.Add("TreeView", "r50 w500 section")
+    treeview := editGui.Add("TreeView", "r50 w500 section")
     treeview.OnEvent("ItemSelect", ItemSelected)
     static IdMap := Map()
     if (Type(data) = "Map") {
@@ -24,14 +24,23 @@ setupDynamicForm(gui, data, basePath) {
             j++
         }
     }
-    textdisplay := gui.Add("Text", "cWhite w400 ys section", "Nothing selected")
-    EditBox := gui.Add("Edit", "w400", "Nothing selected")
+    textdisplay := editGui.Add("Text", "cWhite w400 ys section", "Nothing selected")
+    EditBox := editGui.Add("Edit", "w400", "Nothing selected")
     EditBox.OnEvent("Change", DelaySave)
 
-    SaveState := gui.Add("Text", "cff88000 +Hidden", "Changes Saved.")
+    SaveState := editGui.Add("Text", "cff8800 +Hidden w400 r3", "")
 
     ItemSelected(GuiCtrlObj, Item) {
         textdisplay.Text := IdMap[Item]
+        SaveState.Visible := false
+        if (GuiCtrlObj.GetChild(Item) != 0) {
+            EditBox.Value := ""
+            EditBox.Enabled := false
+            SaveState.Visible := true
+            SaveState.Value := "Cannot edit categories."
+            return
+        }
+        EditBox.Enabled := true
         temp := SaveDataEntry()
         temp.Location := IdMap[Item]
         temp.DataType := "string"
@@ -42,15 +51,17 @@ setupDynamicForm(gui, data, basePath) {
     }
 
     DelaySave(GuiCtrlObj, Info) {
-        SetTimer(SaveChangedItem, -1000)
+        SetTimer(SaveChangedItem.Bind(IdMap[treeview.GetSelection()], EditBox.Value), -1000)
     }
 
-    SaveChangedItem() {
+    SaveChangedItem(location, data) {
+        SaveState.Value := "Saving..."
         SaveState.Visible := true
-        SetTimer(ResetSaveState, -500)
+        SetTimer(ResetSaveState, -750)
         temp := SaveDataEntry()
-        temp.Location := textdisplay.Text
-        temp.Set(EditBox.Value)
+        temp.Location := location
+        Log("Setting " location " to " data)
+        temp.Set(data)
         WriteEditedSave()
     }
 
@@ -59,7 +70,32 @@ setupDynamicForm(gui, data, basePath) {
             SaveState.Visible := false
         }
     }
+
+    WriteEditedSave() {
+        global GameSaveData, LoadedSaveFileName
+
+        WaitGUI := GUI(, "Waiting for save")
+        WaitGUI.Opt("+Owner +MinSize +MinSize500x")
+        WaitGUI.BackColor := "0c0018"
+        WaitGUI.AddText("cWhite", "Waiting for file to save: " LoadedSaveFileName)
+        WaitGUI.Add("Progress", "w270 h20 cBlue vMyProgress smooth", 5)
+        editGui["TabControl"].Enabled := false
+        treeview.Enabled := false
+        SetTimer(incWaitProgress.Bind(WaitGUI), 10)
+        WaitGUI.Show()
+
+        SaveVarToJsonFile(LoadedSaveFileName, GameSaveData)
+
+        WaitGUI.Hide()
+        SaveState.Value := "Edited file saved to: " LoadedSaveFileName
+        SaveState.Visible := true
+        SetTimer(incWaitProgress.Bind(WaitGUI), 0)
+        SetTimer(ResetSaveState, -3000)
+        treeview.Enabled := true
+        editGui["TabControl"].Enabled := true
+    }
 }
+
 
 ; indent amount, if indentamount changed apply to next element
 

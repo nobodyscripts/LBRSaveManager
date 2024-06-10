@@ -21,7 +21,6 @@ Class SaveDataEntry {
         arr := StrSplit(this.Location, ".")
         switch arr.Length {
             case 1:
-
                 return GameSaveData[arr[1]]
             case 2:
                 return GameSaveData[arr[1]][arr[2]]
@@ -46,10 +45,8 @@ Class SaveDataEntry {
     }
 
     Set(val) {
-        if (this.DataType = "int" || this.DataType = "bool" || this.DataType = "float") {
-            if (!InStr(val, ".")) {
-                val += 0.0
-            }
+        if (this.DataType = "int" || this.DataType = "bool" || this.DataType = "float" || IsFloat(val) || IsNumber(val)) {
+            val += 0.0
         }
         global GameSaveData
         arr := StrSplit(this.Location, ".")
