@@ -3,7 +3,6 @@
 #Include ../DataLocations/Header.ahk
 #Include DynamicForms.ahk
 #Include FormLib.ahk
-#Include ../Lib/EditableSave.ahk
 
 global LoadedSaveFileName := ""
 global GameSaveData := false
@@ -19,7 +18,7 @@ cEditMain(*) {
     MainGUI.Add("Text", , "")
     MainGUI.Add("Button", "default", "Open File").OnEvent("Click", OpenSaveToEdit)
     MainGUI.OnEvent("Close", RestoreBaseGUI)
-    
+
     if (!GameSaveData) {
         MainGUI.Show("w300")
     } else {
@@ -29,7 +28,13 @@ cEditMain(*) {
     OpenSaveToEdit(*) {
         global GameSaveData, LoadedSaveFileName, MyGui
         LoadedSaveFileName := FileSelect("3", UserBackupSaveDir,
-            "Select a json file to edit.", "*.json")
+            "Select a json file to edit.", "LBR Saves (*.dat; *.json)")
+        if (LoadedSaveFileName = ActiveSavePath && IsWindowActive()) {
+            MsgBox("Error: Close game if attempting to edit save.dat directly.")
+            MainGUI.Hide()
+            MyGui.Show()
+            return false
+        }
         if (!LoadedSaveFileName || !FileExist(LoadedSaveFileName)) {
             MsgBox("Error: No file exists at: " LoadedSaveFileName)
             MainGUI.Hide()
@@ -38,12 +43,21 @@ cEditMain(*) {
         }
         MainGUI["MyProgress"].Visible := true
         SetTimer(IncLoadingProgress, 150, 1)
-        GameSaveData := LoadSaveToJson(LoadedSaveFileName)
-        if (!GameSaveData) {
+        switch gFile.IsDatOrJson(LoadedSaveFileName) {
+            case 2:
+                gfile.LoadDatToObj(LoadedSaveFileName)
+            case 1:
+                gfile.LoadJsonToObj(LoadedSaveFileName)
+            default:
+                Log("Loaded file was not dat or json.")
+                return false
+        }
+        if (!gFile.fileDataObj) {
             MsgBox("Error: No game save data loaded.")
             MainGUI.Hide()
             return false
         }
+        GameSaveData := gFile.fileDataObj
         SetTimer(IncLoadingProgress, 0)
         cOpenEditableSave()
         MyGui.Hide()

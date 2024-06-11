@@ -84,18 +84,40 @@ setupDynamicForm(editGui, data, basePath) {
         SetTimer(incWaitProgress.Bind(WaitGUI), 10)
         WaitGUI.Show()
 
-        SaveVarToJsonFile(LoadedSaveFileName, GameSaveData)
+        gFile.fileDataObj := GameSaveData
+        failedToSave := false
+        switch gFile.IsDatOrJson(LoadedSaveFileName) {
+            case 2:
+                if (!gfile.SaveObjToDat(LoadedSaveFileName, true)) {
+                    failedToSave := true
+                }
+            case 1:
+                if (!gfile.SaveObjToJson(LoadedSaveFileName, true)) {
+                    failedToSave := true
+                }
+            default:
+                Log("Loaded file was not dat or json.")
+                return false
+        }
 
         WaitGUI.Hide()
-        SaveState.Value := "Edited file saved to: " LoadedSaveFileName
-        SaveState.Visible := true
         SetTimer(incWaitProgress.Bind(WaitGUI), 0)
-        SetTimer(ResetSaveState, -3000)
+        if (failedToSave) {
+            SaveState.Value := "Edited file saved to: " LoadedSaveFileName
+            SetTimer(ResetSaveState, -3000)
+        } else {
+            SaveState.Value := "Failed to save: " LoadedSaveFileName
+            SetTimer(ResetSaveState, -5000)
+        }
+        SaveState.Visible := true
         treeview.Enabled := true
         editGui["TabControl"].Enabled := true
     }
-}
 
+    incWaitProgress(WaitGUI) {
+        WaitGUI["MyProgress"].value += 1
+    }
+}
 
 ; indent amount, if indentamount changed apply to next element
 

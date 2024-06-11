@@ -2,32 +2,45 @@
 global ActiveSavePath
 
 RunTest() {
+    
+    testFile := cFile()
     if (!FileExist(ActiveSavePath)) {
         return
     }
     FileCopy(ActiveSavePath, A_ScriptDir . "\save.dat", true)
 
-    ConvertSaveToJsonFile(A_ScriptDir . "\save.dat")
+    testFile.ConvertDatFileToJsonFile(A_ScriptDir . "\save.dat")
 
     FileMove(A_ScriptDir . "\save.dat", A_ScriptDir . "\saveGood.dat")
 
-    ConvertJsonToSaveFile(A_ScriptDir . "\save.json")
+    testFile.ConvertJsonFileToDatFile(A_ScriptDir . "\save.json")
 
-    newsave := GetSaveData(A_ScriptDir . "\save.dat")
-    oldsave := GetSaveData(A_ScriptDir . "\saveGood.dat")
+    testFile.GetFileBase64(A_ScriptDir . "\save.dat")
+    newsave := testFile.FileBase64
+    testFile.GetFileBase64(A_ScriptDir . "\saveGood.dat")
+    oldsave := testFile.FileBase64
     if (newsave != oldsave) {
         Log("Files DO NOT MATCH, test failed.")
     } else {
         Log("Files match, test success.")
     }
     TestJsonStringSave(A_ScriptDir . "\saveGood.dat")
-    FileDelete(A_ScriptDir . "\saveGood.dat")
-    FileDelete(A_ScriptDir . "\save.dat")
-    FileDelete(A_ScriptDir . "\save.json")
+
+    if (FileExist(A_ScriptDir . "\saveGood.dat")) {
+        FileDelete(A_ScriptDir . "\saveGood.dat")
+    }
+    if (FileExist(A_ScriptDir . "\save.dat")) {
+        FileDelete(A_ScriptDir . "\save.dat")
+    }
+    if (FileExist(A_ScriptDir . "\save.json")) {
+        FileDelete(A_ScriptDir . "\save.json")
+    }
 }
 
 TestJsonStringSave(filename) {
-    olddat := GetSaveData(filename)
+    testFile := cFile()
+    testFile.GetFileBase64(A_ScriptDir . "\saveGood.dat")
+    olddat := testFile.FileBase64
     if (!olddat) {
         return false
     }

@@ -45,6 +45,10 @@ RunGui() {
     MyBtn := MyGui.Add("Button", "Default w120", "Convert Json To Save")
     MyBtn.OnEvent("Click", cConvertJsonToSave)
 
+    MyGui.Add("Text", "cff0000", "`nWARNING DANGEROUS")
+    MyBtn := MyGui.Add("Button", "Default w120", "Force load`nmain save.dat")
+    MyBtn.OnEvent("Click", cForceLoadSave)
+
     MyGui.Add("Text", "", "")
     MyBtn := MyGui.Add("Button", "Default w120", "Edit Save")
     MyBtn.OnEvent("Click", cEditMain)

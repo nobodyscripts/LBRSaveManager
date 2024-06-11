@@ -6,21 +6,25 @@ global ScriptsLogFile := A_ScriptDir "\SaveManager.log"
 
 global GameSaveDir := A_AppData "\..\Local\blow_the_leaves_away\"
 global ActiveSavePath := GameSaveDir "save.dat"
-global BackupSaveDir := "\\?\" A_ScriptDir "\Backups\"
+global BackupSaveDir := A_ScriptDir "\Backups\"
+
+; "C:\Program Files (x86)\Steam\userdata\<numbers>\1468260\remote\save.dat"
+global SteamUserFolder := "C:\Program Files (x86)\Steam\userdata\"
+global SteamUserSubpath := "\1468260\remote\save.dat"
+
 global UserBackupSaveDir := 0
 global EnableLogging := false
 
 #Include Lib\Functions.ahk
 #Include Lib\ScriptSettings.ahk
-#Include Lib\EditableSave.ahk
+#Include Lib\FileClass.ahk
 #Include Gui\MainGUI.ahk
 
 #Include Modules\BackupSave.ahk
-#Include Modules\ConvertSaveToJson.ahk
-#Include Modules\ConvertJsonToSave.ahk
 #Include Modules\RestoreNewestBackup.ahk
 #Include Modules\RenameSaves.ahk
 #Include Modules\TestConvertSave.ahk
+#Include Modules\ForceLoadSave.ahk
 
 global settings := cSettings()
 
