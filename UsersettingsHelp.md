@@ -9,3 +9,6 @@ true/false, Useful for debugging issues, disable if you don't need it
 Debug: (Default) false  
 Extra debug logging and testing modes, not recommended for users due to large
 log usage, could cause file size issues.
+
+UserBackupSaveDir: (Default) none  
+This stores the users selected folder for placing backup files.
