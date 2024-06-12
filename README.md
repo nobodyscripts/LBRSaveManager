@@ -2,6 +2,8 @@
 
 Leaf Blower Revolution save file management script
 
+Features save editing of LBR saves, backups, file organisation, file conversion.
+
 ## Warnings
 
 ### Forced load
