@@ -6,6 +6,7 @@
 #Include ..\ExtLIbs\HashCalc-master\src\HashCalc.ahk
 #Include ..\ExtLIbs\ahk-scripts-v2-main\src\Strings\Base64ToString.ahk
 #Include ..\ExtLIbs\jsongo_AHKv2-main\src\jsongo.v2.ahk
+#Include ..\Lib\Functions.ahk
 
 global gFile := cFile()
 
@@ -59,18 +60,20 @@ class cFile {
         ;Log("IsJson " SubStr(filename, filenameLen - 4, filenameLen))
         if (SubStr(filename, filenameLen - 4, filenameLen) = ".json") {
             return true
-        } 
+        }
         return false
     }
 
-    GetFileBase64(filename) {
+    GetFileBase64(filename, forceLoad := false) {
         this.fileName := filename
         try {
-            if (this.IsDat(filename)) {
-                this.fileExtention := ".dat"
-            } else {
-                Log("File " filename " is not a dat file. Canceled load.")
-                return false
+            if (!forceLoad) {
+                if (this.IsDat(filename)) {
+                    this.fileExtention := ".dat"
+                } else {
+                    Log("File " filename " is not a dat file. Canceled load.")
+                    return false
+                }
             }
             this.FileBase64 := FileRead(filename)
 
@@ -82,13 +85,15 @@ class cFile {
         return false
     }
 
-    GetFileJson(filename) {
+    GetFileJson(filename, forceLoad := false) {
         this.fileName := filename
-        if (this.IsJson(filename)) {
-            this.fileExtention := ".json"
-        } else {
-            Log("File " filename " is not a json file. Canceled load.")
-            return false
+        if (!forceLoad) {
+            if (this.IsJson(filename)) {
+                this.fileExtention := ".json"
+            } else {
+                Log("File " filename " is not a json file. Canceled load.")
+                return false
+            }
         }
         try {
             this.fileJsonString := FileRead(filename)

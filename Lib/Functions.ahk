@@ -82,7 +82,7 @@ CapitaliseFirstChar(string) {
     if (!string) {
         return false
     }
-    arr := StrSplit(string,,,2)
+    arr := StrSplit(string, , , 2)
     if (arr.Length = 2) {
         arr[1] := StrUpper(arr[1])
         return arr[1] arr[2]
