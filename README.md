@@ -4,7 +4,7 @@ Leaf Blower Revolution save file management script
 Features save editing of LBR saves, backups, file organisation, file conversion.
 
 Autohotkey V2 script, see Setup Guide below for installation help.
-Support and news: <https://discord.gg/xu8fXw4CQ8>
+Support and news: <https://discord.gg/YjE4jRtJqQ>
 
 ## Features
 
